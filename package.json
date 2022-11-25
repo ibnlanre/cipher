@@ -1,7 +1,7 @@
 {
   "name": "@ibnlanre/cipher",
   "description": "for AES encryption or decryption",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "source": "src/index.ts",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,7 +50,9 @@
   },
   "dependencies": {
     "browserify-aes": "^1.2.0",
+    "buffer": "^6.0.3",
     "randombytes": "^2.1.0",
-    "safe-buffer": "^5.2.1"
+    "safe-buffer": "^5.2.1",
+    "stream": "^0.0.2"
   }
 }

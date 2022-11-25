@@ -29,13 +29,18 @@ interface CipherConstructor {
   algorithm?: CipherAlgorithm<CipherTypes<CipherBlockSize>, CipherMode>;
 }
 
-type CipherText = string | Array<CipherText> | { [key: string]: CipherText };
+type CipherText =
+  | string
+  | number
+  | boolean
+  | Array<CipherText>
+  | { [key: string]: CipherText };
 
 /**
  * @example
- * const encryption_key = Cipher.generateRandomKey(256);
- * const initialization_vector = Cipher.generateRandomKey(16);
- * 
+ * const encryption_key = Cipher.generateRandomKey("256");
+ * const initialization_vector = Cipher.generateRandomKey("128");
+ *
  * const cipher = new Cipher({
  *   initialization_vector,
  *   algorithm: "aes-256-cbc",
@@ -53,7 +58,7 @@ export default class Cipher {
   public decrypt!: (property: any) => void;
 
   static generateRandomKey(
-    bits: CipherBlockSize = "256",
+    bits: CipherBlockSize | number = "256",
     encoding: BufferEncoding = "hex"
   ) {
     return randomBytes(Number(bits) / 16).toString(encoding);
@@ -110,7 +115,13 @@ export default class Cipher {
         withPlainText: CipherText,
         encoding: BufferEncoding = input_encoding
       ) {
-        const _withPlainText = JSON.parse(JSON.stringify(withPlainText));
+        let _withPlainText = "";
+
+        try {
+          _withPlainText = JSON.parse(JSON.stringify(withPlainText));
+        } catch (e) {
+          throw new Error("passed data should be serializable");
+        }
 
         function do_encrypt_data(_withPlainText: CipherText): CipherText {
           function do_encrypt(_withPlainText: string) {
@@ -127,17 +138,12 @@ export default class Cipher {
 
           if (Array.isArray(_withPlainText))
             return _withPlainText.map((value) => do_encrypt_data(value));
-          else if ("object" == typeof _withPlainText)
-            for (const key of Object.keys(_withPlainText)) {
-              const value = Array.isArray(_withPlainText[key])
-                ? do_encrypt_data(_withPlainText[key])
-                : "object" == typeof _withPlainText[key]
-                ? do_encrypt_data(_withPlainText[key])
-                : do_encrypt(_withPlainText[key].toString());
-              _withPlainText[key] = value;
-            }
-          else _withPlainText = do_encrypt(_withPlainText.toString());
-          return _withPlainText;
+          else if (typeof _withPlainText === "object") {
+            for (const key of Object.keys(_withPlainText))
+              _withPlainText[key] = do_encrypt_data(_withPlainText[key]);
+            return _withPlainText;
+          }
+          return do_encrypt(JSON.stringify(_withPlainText));
         }
 
         return do_encrypt_data(_withPlainText);
@@ -147,13 +153,19 @@ export default class Cipher {
         withCipherText: CipherText,
         decoding: BufferEncoding = output_decoding
       ) {
-        const _withCipherText = JSON.parse(JSON.stringify(withCipherText));
+        let _withCipherText = "";
+
+        try {
+          _withCipherText = JSON.parse(JSON.stringify(withCipherText));
+        } catch (e) {
+          throw new Error("cipher data should be serializable");
+        }
 
         function do_decrypt_data(_withCipherText: CipherText): CipherText {
           function do_decrypt(_withCipherText: string) {
             if (
-              "string" == typeof _withCipherText &&
-              0 === _withCipherText.trim().length
+              typeof _withCipherText === "string" &&
+              !_withCipherText.trim().length
             )
               return _withCipherText;
             try {
@@ -162,10 +174,12 @@ export default class Cipher {
                 encryption_key,
                 initialization_vector
               );
-              return Buffer.concat([
-                cipher.update(Buffer.from(_withCipherText, decoding)),
-                cipher.final(),
-              ]).toString();
+              return JSON.parse(
+                Buffer.concat([
+                  cipher.update(Buffer.from(_withCipherText, decoding)),
+                  cipher.final(),
+                ]).toString()
+              );
             } catch (err) {
               return _withCipherText.toString();
             }
@@ -173,17 +187,12 @@ export default class Cipher {
 
           if (Array.isArray(_withCipherText))
             return _withCipherText.map((value) => do_decrypt_data(value));
-          else if ("object" == typeof _withCipherText)
-            for (const key of Object.keys(_withCipherText)) {
-              const value = Array.isArray(_withCipherText[key])
-                ? do_decrypt_data(_withCipherText[key])
-                : "object" == typeof _withCipherText[key]
-                ? do_decrypt_data(_withCipherText[key])
-                : do_decrypt(_withCipherText[key].toString());
-              _withCipherText[key] = value;
-            }
-          else _withCipherText = do_decrypt(_withCipherText.toString());
-          return _withCipherText;
+          else if (typeof _withCipherText === "object") {
+            for (const key of Object.keys(_withCipherText))
+              _withCipherText[key] = do_decrypt_data(_withCipherText[key]);
+            return _withCipherText;
+          }
+          return do_decrypt(_withCipherText.toString());
         }
         return do_decrypt_data(_withCipherText);
       };

@@ -46,7 +46,7 @@ To use, you'll need to install Node and Yarn or npm
 
   ```javascript
   const encryption_key = Cipher.generateRandomKey(256);
-  const initialization_vector = Cipher.generateRandomKey(16);
+  const initialization_vector = Cipher.generateRandomKey(128);
 
   const cipher = new Cipher({
     initialization_vector,
@@ -57,16 +57,27 @@ To use, you'll need to install Node and Yarn or npm
   });
   ```
 
+- Destructure
+
+  ```javascript
+  const { encrypt, decrypt } = cipher;
+  ```
+
 - Utilize
 
   ```javascript
   const formData = { example: "fooBar" };
-  const encryptedData = cipher.encrypt(formData);
-  const decryptedData = cipher.decrypt(encryptedData);
+  const encryptedData = encrypt(formData);
+  const decryptedData = decrypt(encryptedData);
   ```
 
+## Maintainer
+
+- [Ridwan Olanrewaju][homepage]
+
+[homepage]: https://github.com/~ibnlanre
 [prettier]: https://github.com/prettier/prettier
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-f8bc45.svg
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
-[version-badge]: https://img.shields.io/badge/version-1.0.2-orange
+[version-badge]: https://img.shields.io/badge/version-1.0.4-orange
