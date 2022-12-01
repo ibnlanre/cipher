@@ -2,7 +2,7 @@
 import { createCipheriv, createDecipheriv } from "browserify-aes/browser.js";
 import { Buffer } from "safe-buffer";
 
-import randomBytes from "randombytes";
+import randomBytes from "secure-random";
 import MODES from "./modes";
 
 type CipherMode =
@@ -114,7 +114,7 @@ export default class Cipher {
       this.encrypt = function (
         withPlainText: CipherText,
         encoding: BufferEncoding = input_encoding
-      ) {
+      ): CipherText {
         let _withPlainText = "";
 
         try {
