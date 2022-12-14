@@ -1,2 +1,2 @@
 import Cipher from "../dist/index.js";
-console.log(Cipher)
+console.log(new Cipher({ encryption_key: "", initialization_vector: "" }));

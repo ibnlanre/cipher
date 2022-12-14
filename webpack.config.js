@@ -13,7 +13,7 @@ const isDevelopment = process.env.NODE_ENV == "development";
 export default {
   mode: isDevelopment || "production",
   entry: "./src/index.ts",
-  devtool: "inline-source-map",
+  devtool: false, //"inline-source-map",
   // output: {
   //   library: "Cipher",
   //   libraryTarget: "umd",
@@ -25,6 +25,7 @@ export default {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
     libraryTarget: "module",
+    globalObject: "this",
   },
   plugins: [],
   optimization: {
