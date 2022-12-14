@@ -73,9 +73,6 @@ export default {
     },
   },
   experiments: {
-    asyncWebAssembly: true,
-    layers: true,
     outputModule: true,
-    syncWebAssembly: true,
   },
 };
