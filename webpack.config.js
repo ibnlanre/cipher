@@ -64,8 +64,9 @@ export default {
   resolve: {
     fallback: {
       stream: require.resolve("stream-browserify"),
+      crypto: require.resolve("crypto-browserify"),
     },
-    alias: { crypto: require.resolve("crypto-browserify") },
+    // alias: { crypto: require.resolve("crypto-browserify") },
     extensions: [".ts", ".tsx", ".js", ".json"],
     extensionAlias: {
       ".js": [".js", ".ts"],

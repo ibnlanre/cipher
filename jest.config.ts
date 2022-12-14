@@ -1,7 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
   preset: "ts-jest",
-  testEnvironment: "jsdom", //node
+  testEnvironment: "node",
   verbose: true,
   transform: {
     "^.+\\.(ts|tsx)?$": "ts-jest",
