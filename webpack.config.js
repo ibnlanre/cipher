@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
@@ -13,12 +14,17 @@ export default {
   mode: isDevelopment || "production",
   entry: "./src/index.ts",
   devtool: "inline-source-map",
+  // output: {
+  //   library: "Cipher",
+  //   libraryTarget: "umd",
+  //   path: path.resolve(__dirname, "dist"),
+  //   globalObject: "this",
+  //   filename: "index.js",
+  // },
   output: {
-    library: "Cipher",
-    libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist"),
-    globalObject: "this",
     filename: "index.js",
+    path: path.resolve(__dirname, "dist"),
+    libraryTarget: "module",
   },
   plugins: [],
   optimization: {
@@ -65,5 +71,11 @@ export default {
       ".cjs": [".cjs", ".cts"],
       ".mjs": [".mjs", ".mts"],
     },
+  },
+  experiments: {
+    asyncWebAssembly: true,
+    layers: true,
+    outputModule: true,
+    syncWebAssembly: true,
   },
 };
