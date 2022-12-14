@@ -26,7 +26,9 @@ export default {
     path: path.resolve(__dirname, "dist"),
     libraryTarget: "module",
     globalObject: "this",
+    chunkFormat: "module"
   },
+  target: "web",
   plugins: [],
   optimization: {
     mangleExports: false,
@@ -66,7 +68,6 @@ export default {
       stream: require.resolve("stream-browserify"),
       crypto: require.resolve("crypto-browserify"),
     },
-    // alias: { crypto: require.resolve("crypto-browserify") },
     extensions: [".ts", ".tsx", ".js", ".json"],
     extensionAlias: {
       ".js": [".js", ".ts"],
