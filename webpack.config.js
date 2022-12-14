@@ -26,7 +26,7 @@ export default {
     path: path.resolve(__dirname, "dist"),
     libraryTarget: "module",
     globalObject: "this",
-    chunkFormat: "module"
+    chunkFormat: "module",
   },
   target: "web",
   plugins: [],
@@ -49,6 +49,7 @@ export default {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env", "@babel/preset-typescript"],
+              plugins: ["@babel/plugin-transform-runtime"],
             },
           },
           {
