@@ -1,4 +1,5 @@
 import path from "node:path";
+import webpack from "webpack";
 
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -29,7 +30,12 @@ export default {
     chunkFormat: "module",
   },
   target: "web",
-  plugins: [],
+  plugins: [
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
   optimization: {
     mangleExports: false,
     minimize: false,
@@ -68,6 +74,11 @@ export default {
     fallback: {
       stream: require.resolve("stream-browserify"),
       crypto: require.resolve("crypto-browserify"),
+      assert: require.resolve("assert"),
+      http: require.resolve("stream-http"),
+      https: require.resolve("https-browserify"),
+      os: require.resolve("os-browserify"),
+      url: require.resolve("url"),
     },
     extensions: [".ts", ".tsx", ".js", ".json"],
     extensionAlias: {

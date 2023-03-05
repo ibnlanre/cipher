@@ -1,4 +1,4 @@
-import Cipher from "../dist/index.js";
+import { Cipher } from "../dist/index.js";
 import { it, expect, describe } from "@jest/globals";
 
 const { encrypt, decrypt } = new Cipher({

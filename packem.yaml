@@ -1,0 +1,6 @@
+input: "./src/index.ts"
+output: "./dist/bundle.js"
+format: "iife"
+transformer:
+  babelPresets: ["@babel/preset-env", "@babel/preset-typescript"]
+  babelPlugins: ["@babel/plugin-syntax-dynamic-import", "@babel/plugin-transform-runtime"]

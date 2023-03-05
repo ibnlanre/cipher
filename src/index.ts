@@ -1,8 +1,8 @@
 // @ts-ignore
+import { randomBytes } from "crypto";
 import { createCipheriv, createDecipheriv } from "browserify-aes/browser.js";
 import { Buffer } from "buffer/";
 
-import randomBytes from "secure-random";
 import MODES from "./modes";
 
 type CipherMode =
@@ -53,7 +53,7 @@ type CipherText =
  * const encryptedData = cipher.encrypt(formData);
  * const decryptedData = cipher.decrypt(encryptedData)
  */
-export default class Cipher {
+export class Cipher {
   public encrypt!: (property: any) => void;
   public decrypt!: (property: any) => void;
 
@@ -61,7 +61,8 @@ export default class Cipher {
     bits: CipherBlockSize | number = "256",
     encoding: BufferEncoding = "hex"
   ) {
-    return randomBytes(Number(bits) / 16).toString(encoding);
+    const generatedBytes = randomBytes(Number(bits) / 16);
+    return generatedBytes.toString(encoding);
   }
 
   private checkKeyLength(
