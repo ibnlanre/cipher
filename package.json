@@ -1,7 +1,7 @@
 {
   "name": "@ibnlanre/cipher",
   "description": "for AES encryption or decryption",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "source": "src/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,6 +53,7 @@
     "babel-loader": "^9.1.0",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
+    "browserify-aes": "^1.2.0",
     "buffer": "^6.0.3",
     "cipher-base": "^1.0.4",
     "crypto-browserify": "^3.12.0",

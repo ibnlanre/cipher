@@ -21,13 +21,13 @@ type CipherAlgorithm<
   M extends CipherMode
 > = `${T}-${M}`;
 
-interface CipherConstructor {
+type CipherConstructor = {
   encryption_key: string;
   initialization_vector: string;
   input_encoding?: BufferEncoding;
   output_decoding?: BufferEncoding;
   algorithm?: CipherAlgorithm<CipherTypes<CipherBlockSize>, CipherMode>;
-}
+};
 
 type CipherText =
   | string
@@ -49,13 +49,20 @@ type CipherText =
  *   encryption_key,
  * });
  *
- * const formData = { example: "fooBar" }
+ * const formData = { foo: "bar", baz: ["quz"] }
  * const encryptedData = cipher.encrypt(formData);
  * const decryptedData = cipher.decrypt(encryptedData)
  */
-export class Cipher {
-  public encrypt!: (property: any) => void;
-  public decrypt!: (property: any) => void;
+export default class Cipher {
+  public encrypt!: (
+    withPlainText: CipherText,
+    encoding?: BufferEncoding
+  ) => CipherText;
+
+  public decrypt!: (
+    withCipherText: CipherText,
+    decoding?: BufferEncoding
+  ) => CipherText;
 
   static generateRandomKey(
     bits: CipherBlockSize | number = "256",
@@ -199,8 +206,6 @@ export class Cipher {
       };
     } catch (error: any) {
       console.log(error.message);
-      this.encrypt = (argument) => void 0;
-      this.decrypt = (argument) => void 0;
     }
   }
 }
