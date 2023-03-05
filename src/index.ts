@@ -53,7 +53,7 @@ type CipherText =
  * const encryptedData = cipher.encrypt(formData);
  * const decryptedData = cipher.decrypt(encryptedData)
  */
-export default class Cipher {
+class Cipher {
   public encrypt!: (
     withPlainText: CipherText,
     encoding?: BufferEncoding
@@ -209,3 +209,5 @@ export default class Cipher {
     }
   }
 }
+
+export default Cipher
