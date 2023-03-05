@@ -1,5 +1,6 @@
 import path from "node:path";
 import webpack from "webpack";
+import TerserPlugin from "terser-webpack-plugin";
 
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -40,6 +41,18 @@ export default {
     mangleExports: false,
     minimize: false,
     nodeEnv: "production",
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          mangle: {
+            properties: {
+              regex: /^_/,
+            },
+          },
+        },
+      }),
+    ],
   },
   module: {
     rules: [
