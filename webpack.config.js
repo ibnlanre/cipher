@@ -13,7 +13,7 @@ const isDevelopment = process.env.NODE_ENV == "development";
 
 /** @type { import('webpack').Configuration } */
 export default {
-  mode: isDevelopment || "production",
+  mode: isDevelopment ? "development" : "production",
   entry: "./src/index.ts",
   devtool: false, //"inline-source-map",
   // output: {
@@ -39,9 +39,8 @@ export default {
   ],
   optimization: {
     mangleExports: false,
-    minimize: false,
-    nodeEnv: "production",
     minimize: true,
+    nodeEnv: "production",
     minimizer: [
       new TerserPlugin({
         terserOptions: {
