@@ -82,4 +82,4 @@ To use, you'll need to install Node and Yarn or npm
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-f8bc45.svg
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
-[version-badge]: https://img.shields.io/badge/version-2.0.0-orange
+[version-badge]: https://img.shields.io/badge/version-2.0.1-orange
