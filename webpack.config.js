@@ -39,7 +39,7 @@ export default {
   ],
   optimization: {
     mangleExports: false,
-    minimize: true,
+    minimize: false,
     nodeEnv: "production",
     minimizer: [
       new TerserPlugin({

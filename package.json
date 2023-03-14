@@ -1,7 +1,7 @@
 {
   "name": "@ibnlanre/cipher",
   "description": "for AES encryption or decryption",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "source": "src/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,12 +25,12 @@
   ],
   "license": "MIT",
   "scripts": {
-    "bundle": "webpack build --config ./webpack.config.js --stats verbose",
-    "build": "browserify --entry ./src/index.ts --outfile dist/bundle.js",
-    "package": "yarn publish --access public",
     "typings": "tsc --project ./",
+    "local-test": "node tests/index.js",
+    "bundle": "webpack build --config ./webpack.config.js",
+    "test": "jest",
     "clear-cache": "jest --clearCache",
-    "test": "jest"
+    "package": "yarn publish --access public"
   },
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {
