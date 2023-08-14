@@ -2,13 +2,30 @@
   "name": "@ibnlanre/cipher",
   "description": "for AES encryption or decryption",
   "version": "2.1.0",
-  "source": "src/index.js",
-  "module": "dist/index.js",
+  "source": "src/index",
+  "module": "dist/index",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
     "dist"
   ],
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "sourcemap": true,
+    "banner": {
+      "js": "\"use client\";"
+    },
+    "shims": true,
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "clean": true,
+    "dts": true,
+    "jsx": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ibnlanre/cipher.git"
@@ -26,10 +43,9 @@
   "license": "MIT",
   "scripts": {
     "typings": "tsc --project ./",
-    "local-test": "node tests/index.js",
-    "bundle": "webpack build --config ./webpack.config.js",
-    "test": "jest",
-    "clear-cache": "jest --clearCache",
+    "test": "vitest",
+    "local-test": "node tests/index.cjs",
+    "bundle": "tsup",
     "package": "yarn publish --access public"
   },
   "browserslist": "> 0.25%, not dead",
@@ -72,6 +88,7 @@
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "tsify": "^5.0.4",
+    "tsup": "^7.2.0",
     "typescript": "^4.8.4",
     "uglifyify": "^5.0.2",
     "url": "^0.11.0",
@@ -79,7 +96,8 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "@types/node": "^18.14.6"
+    "@types/node": "^18.14.6",
+    "vitest": "^0.34.1"
   },
   "browserify": {
     "plugins": [

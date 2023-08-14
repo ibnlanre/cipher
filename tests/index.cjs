@@ -1,4 +1,4 @@
-import Cipher from "../dist/index.js";
+const Cipher = require("../dist/index.cjs").default;
 
 const { encrypt, decrypt } = new Cipher({
   encryption_key: "uEKBcN7kMKayW6SF8d0BtaJq60Musbp0",

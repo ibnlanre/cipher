@@ -37,7 +37,7 @@ To use, you'll need to install Node and Yarn or npm
 - NodeJS Require
 
   ```javascript
-  const Cipher = require("@ibnlanre/cipher");
+  const Cipher = require("@ibnlanre/cipher").default;
   ```
 
 ## Usage
@@ -71,13 +71,13 @@ To use, you'll need to install Node and Yarn or npm
   const decryptedData = decrypt(encryptedData);
   ```
 
-## Maintainer
+## Maintainers
 
-- [Ridwan Olanrewaju][lead_github_profile]
-- [Babatunde Adekunle][maintainer]
+- [Ridwan Olanrewaju][ridwan_olanrewaju]
+- [Babatunde Adekunle][babatunde_adekunle]
 
-[lead_github_profile]: https://github.com/~ibnlanre
-[maintainer]: https://github.com/adeTunes
+[ridwan_olanrewaju]: https://github.com/~ibnlanre
+[babatunde_adekunle]: https://github.com/adeTunes
 [prettier]: https://github.com/prettier/prettier
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-f8bc45.svg
 [typescript]: http://www.typescriptlang.org/

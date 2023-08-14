@@ -1,5 +1,5 @@
 import Cipher from "../dist/index.js";
-import { it, expect, describe } from "@jest/globals";
+import { it, expect, describe } from "vitest";
 
 const { encrypt, decrypt } = new Cipher({
   encryption_key: "uEKBcN7kMKayW6SF8d0BtaJq60Musbp0",
@@ -16,9 +16,9 @@ describe("Other JS Types", () => {
 });
 
 const formDataSnapshot = {
+  auth_type: "password",
   email: "test@example.com",
   password: "_testPassword",
-  auth_type: "password",
 };
 const formData = Object.assign({}, formDataSnapshot);
 
@@ -34,9 +34,9 @@ describe("Random Key Generation", () => {
 
 const encryptedData = encrypt(formData);
 const encryptedDataSnapshot = {
-  auth_type: "Nc+aILXfVljxgTx7YCkbpA==",
-  email: "2y39uUsPI4+vTKxVGySvwIV5OUE5m8dOvsRsoa04s1E=",
-  password: "0jLiXmFgAJLLzkcVeZlKfA==",
+  auth_type: "Z4vS7PUJromKcwyPa3cNfg==",
+  email: "k1VvT7q1xiBfP0TT7d62eHQFS1vpvkFyLKmlNJMhHCw=",
+  password: "wGbS3e5hbrOfuWn1Lhb+sA==",
 };
 
 describe("Encryption", () => {
