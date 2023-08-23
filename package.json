@@ -2,7 +2,8 @@
   "name": "@ibnlanre/cipher",
   "description": "for AES encryption or decryption",
   "version": "2.2.0",
-  "module": "dist/index.cjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
