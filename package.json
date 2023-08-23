@@ -1,27 +1,15 @@
 {
   "name": "@ibnlanre/cipher",
-  "description": "for AES encryption or decryption",
+  "description": "Library for AES encryption or decryption",
   "version": "2.2.0",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "cjs/index.d.ts",
+  "sideEffects": false,
   "files": [
-    "dist"
+    "esm",
+    "cjs"
   ],
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "sourcemap": true,
-    "shims": true,
-    "format": [
-      "esm",
-      "cjs"
-    ],
-    "clean": true,
-    "dts": true,
-    "jsx": true
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ibnlanre/cipher.git"
@@ -38,11 +26,13 @@
   ],
   "license": "MIT",
   "scripts": {
+    "package": "yarn publish --access public",
     "typings": "tsc --project ./",
     "test": "vitest",
+    "esm-bundle": "tsup --config tsup.esm.ts",
+    "cjs-bundle": "tsup --config tsup.cjs.ts",
     "local-test": "node tests/index.js",
-    "bundle": "tsup",
-    "package": "yarn publish --access public"
+    "build": "yarn esm-bundle && yarn cjs-bundle"
   },
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {

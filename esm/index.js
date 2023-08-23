@@ -1,4 +1,4 @@
-"use client";
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -6,18 +6,12 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __pow = Math.pow;
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined")
-    return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x + '" is not supported');
-});
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require2() {
+var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -35,19 +29,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-
-// node_modules/tsup/assets/esm_shims.js
-var init_esm_shims = __esm({
-  "node_modules/tsup/assets/esm_shims.js"() {
-    "use strict";
-  }
-});
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/browserify-aes/modes/ecb.js
 var require_ecb = __commonJS({
   "node_modules/browserify-aes/modes/ecb.js"(exports) {
     "use strict";
-    init_esm_shims();
     exports.encrypt = function(self, block) {
       return self._cipher.encryptBlock(block);
     };
@@ -59,10 +46,9 @@ var require_ecb = __commonJS({
 
 // node_modules/buffer-xor/index.js
 var require_buffer_xor = __commonJS({
-  "node_modules/buffer-xor/index.js"(exports, module) {
+  "node_modules/buffer-xor/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = function xor(a, b) {
+    module2.exports = function xor(a, b) {
       var length = Math.min(a.length, b.length);
       var buffer = new Buffer(length);
       for (var i = 0; i < length; ++i) {
@@ -77,7 +63,6 @@ var require_buffer_xor = __commonJS({
 var require_cbc = __commonJS({
   "node_modules/browserify-aes/modes/cbc.js"(exports) {
     "use strict";
-    init_esm_shims();
     var xor = require_buffer_xor();
     exports.encrypt = function(self, block) {
       var data = xor(block, self._prev);
@@ -95,10 +80,9 @@ var require_cbc = __commonJS({
 
 // node_modules/safe-buffer/index.js
 var require_safe_buffer = __commonJS({
-  "node_modules/safe-buffer/index.js"(exports, module) {
+  "node_modules/safe-buffer/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    var buffer = __require("buffer");
+    var buffer = require("buffer");
     var Buffer3 = buffer.Buffer;
     function copyProps(src, dst) {
       for (var key in src) {
@@ -106,7 +90,7 @@ var require_safe_buffer = __commonJS({
       }
     }
     if (Buffer3.from && Buffer3.alloc && Buffer3.allocUnsafe && Buffer3.allocUnsafeSlow) {
-      module.exports = buffer;
+      module2.exports = buffer;
     } else {
       copyProps(buffer, exports);
       exports.Buffer = SafeBuffer;
@@ -157,7 +141,6 @@ var require_safe_buffer = __commonJS({
 var require_cfb = __commonJS({
   "node_modules/browserify-aes/modes/cfb.js"(exports) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var xor = require_buffer_xor();
     function encryptStart(self, data, decrypt) {
@@ -193,7 +176,6 @@ var require_cfb = __commonJS({
 var require_cfb8 = __commonJS({
   "node_modules/browserify-aes/modes/cfb8.js"(exports) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function encryptByte(self, byteParam, decrypt) {
       var pad = self._cipher.encryptBlock(self._prev);
@@ -220,7 +202,6 @@ var require_cfb8 = __commonJS({
 var require_cfb1 = __commonJS({
   "node_modules/browserify-aes/modes/cfb1.js"(exports) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function encryptByte(self, byteParam, decrypt) {
       var pad;
@@ -263,7 +244,6 @@ var require_cfb1 = __commonJS({
 var require_ofb = __commonJS({
   "node_modules/browserify-aes/modes/ofb.js"(exports) {
     "use strict";
-    init_esm_shims();
     var xor = require_buffer_xor();
     function getBlock(self) {
       self._prev = self._cipher.encryptBlock(self._prev);
@@ -282,9 +262,8 @@ var require_ofb = __commonJS({
 
 // node_modules/browserify-aes/incr32.js
 var require_incr32 = __commonJS({
-  "node_modules/browserify-aes/incr32.js"(exports, module) {
+  "node_modules/browserify-aes/incr32.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     function incr32(iv) {
       var len = iv.length;
       var item;
@@ -299,7 +278,7 @@ var require_incr32 = __commonJS({
         }
       }
     }
-    module.exports = incr32;
+    module2.exports = incr32;
   }
 });
 
@@ -307,7 +286,6 @@ var require_incr32 = __commonJS({
 var require_ctr = __commonJS({
   "node_modules/browserify-aes/modes/ctr.js"(exports) {
     "use strict";
-    init_esm_shims();
     var xor = require_buffer_xor();
     var Buffer3 = require_safe_buffer().Buffer;
     var incr32 = require_incr32();
@@ -341,8 +319,8 @@ var require_ctr = __commonJS({
 
 // node_modules/browserify-aes/modes/list.json
 var require_list = __commonJS({
-  "node_modules/browserify-aes/modes/list.json"(exports, module) {
-    module.exports = {
+  "node_modules/browserify-aes/modes/list.json"(exports, module2) {
+    module2.exports = {
       "aes-128-ecb": {
         cipher: "AES",
         key: 128,
@@ -538,9 +516,8 @@ var require_list = __commonJS({
 
 // node_modules/browserify-aes/modes/index.js
 var require_modes = __commonJS({
-  "node_modules/browserify-aes/modes/index.js"(exports, module) {
+  "node_modules/browserify-aes/modes/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var modeModules = {
       ECB: require_ecb(),
       CBC: require_cbc(),
@@ -556,15 +533,14 @@ var require_modes = __commonJS({
       modes[key].module = modeModules[modes[key].mode];
     }
     var key;
-    module.exports = modes;
+    module2.exports = modes;
   }
 });
 
 // node_modules/browserify-aes/aes.js
 var require_aes = __commonJS({
-  "node_modules/browserify-aes/aes.js"(exports, module) {
+  "node_modules/browserify-aes/aes.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function asUInt32Array(buf) {
       if (!Buffer3.isBuffer(buf))
@@ -733,17 +709,16 @@ var require_aes = __commonJS({
       scrubVec(this._invKeySchedule);
       scrubVec(this._key);
     };
-    module.exports.AES = AES;
+    module2.exports.AES = AES;
   }
 });
 
 // node_modules/inherits/inherits_browser.js
 var require_inherits_browser = __commonJS({
-  "node_modules/inherits/inherits_browser.js"(exports, module) {
+  "node_modules/inherits/inherits_browser.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     if (typeof Object.create === "function") {
-      module.exports = function inherits(ctor, superCtor) {
+      module2.exports = function inherits(ctor, superCtor) {
         if (superCtor) {
           ctor.super_ = superCtor;
           ctor.prototype = Object.create(superCtor.prototype, {
@@ -757,7 +732,7 @@ var require_inherits_browser = __commonJS({
         }
       };
     } else {
-      module.exports = function inherits(ctor, superCtor) {
+      module2.exports = function inherits(ctor, superCtor) {
         if (superCtor) {
           ctor.super_ = superCtor;
           var TempCtor = function() {
@@ -773,16 +748,15 @@ var require_inherits_browser = __commonJS({
 
 // node_modules/inherits/inherits.js
 var require_inherits = __commonJS({
-  "node_modules/inherits/inherits.js"(exports, module) {
+  "node_modules/inherits/inherits.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     try {
-      util = __require("util");
+      util = require("util");
       if (typeof util.inherits !== "function")
         throw "";
-      module.exports = util.inherits;
+      module2.exports = util.inherits;
     } catch (e) {
-      module.exports = require_inherits_browser();
+      module2.exports = require_inherits_browser();
     }
     var util;
   }
@@ -790,12 +764,11 @@ var require_inherits = __commonJS({
 
 // node_modules/cipher-base/index.js
 var require_cipher_base = __commonJS({
-  "node_modules/cipher-base/index.js"(exports, module) {
+  "node_modules/cipher-base/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
-    var Transform = __require("stream").Transform;
-    var StringDecoder = __require("string_decoder").StringDecoder;
+    var Transform = require("stream").Transform;
+    var StringDecoder = require("string_decoder").StringDecoder;
     var inherits = require_inherits();
     function CipherBase(hashMode) {
       Transform.call(this);
@@ -879,15 +852,14 @@ var require_cipher_base = __commonJS({
       }
       return out;
     };
-    module.exports = CipherBase;
+    module2.exports = CipherBase;
   }
 });
 
 // node_modules/browserify-aes/ghash.js
 var require_ghash = __commonJS({
-  "node_modules/browserify-aes/ghash.js"(exports, module) {
+  "node_modules/browserify-aes/ghash.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var ZEROES = Buffer3.alloc(16, 0);
     function toArray(buf) {
@@ -958,15 +930,14 @@ var require_ghash = __commonJS({
       this.ghash(fromArray([0, abl, 0, bl]));
       return this.state;
     };
-    module.exports = GHASH;
+    module2.exports = GHASH;
   }
 });
 
 // node_modules/browserify-aes/authCipher.js
 var require_authCipher = __commonJS({
-  "node_modules/browserify-aes/authCipher.js"(exports, module) {
+  "node_modules/browserify-aes/authCipher.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var aes = require_aes();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_cipher_base();
@@ -1068,15 +1039,14 @@ var require_authCipher = __commonJS({
       this._ghash.update(buf);
       this._alen += buf.length;
     };
-    module.exports = StreamCipher;
+    module2.exports = StreamCipher;
   }
 });
 
 // node_modules/browserify-aes/streamCipher.js
 var require_streamCipher = __commonJS({
-  "node_modules/browserify-aes/streamCipher.js"(exports, module) {
+  "node_modules/browserify-aes/streamCipher.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var aes = require_aes();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_cipher_base();
@@ -1097,24 +1067,22 @@ var require_streamCipher = __commonJS({
     StreamCipher.prototype._final = function() {
       this._cipher.scrub();
     };
-    module.exports = StreamCipher;
+    module2.exports = StreamCipher;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js
 var require_stream = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = __require("stream");
+    module2.exports = require("stream");
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js
 var require_buffer_list = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     function ownKeys(object, enumerableOnly) {
       var keys = Object.keys(object);
       if (Object.getOwnPropertySymbols) {
@@ -1174,15 +1142,15 @@ var require_buffer_list = __commonJS({
         _defineProperties(Constructor, staticProps);
       return Constructor;
     }
-    var _require = __require("buffer");
+    var _require = require("buffer");
     var Buffer3 = _require.Buffer;
-    var _require2 = __require("util");
+    var _require2 = require("util");
     var inspect = _require2.inspect;
     var custom = inspect && inspect.custom || "inspect";
     function copyBuffer(src, target, offset) {
       Buffer3.prototype.copy.call(src, target, offset);
     }
-    module.exports = /* @__PURE__ */ function() {
+    module2.exports = /* @__PURE__ */ function() {
       function BufferList() {
         _classCallCheck(this, BufferList);
         this.head = null;
@@ -1366,9 +1334,8 @@ var require_buffer_list = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js
 var require_destroy = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     function destroy(err, cb) {
       var _this = this;
       var readableDestroyed = this._readableState && this._readableState.destroyed;
@@ -1450,7 +1417,7 @@ var require_destroy = __commonJS({
       else
         stream.emit("error", err);
     }
-    module.exports = {
+    module2.exports = {
       destroy,
       undestroy,
       errorOrDestroy
@@ -1460,9 +1427,8 @@ var require_destroy = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/errors.js
 var require_errors = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/errors.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/errors.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var codes = {};
     function createErrorType(code, message, Base) {
       if (!Base) {
@@ -1555,15 +1521,14 @@ var require_errors = __commonJS({
       return "Unknown encoding: " + arg;
     }, TypeError);
     createErrorType("ERR_STREAM_UNSHIFT_AFTER_END_EVENT", "stream.unshift() after end event");
-    module.exports.codes = codes;
+    module2.exports.codes = codes;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js
 var require_state = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var ERR_INVALID_OPT_VALUE = require_errors().codes.ERR_INVALID_OPT_VALUE;
     function highWaterMarkFrom(options, isDuplex, duplexKey) {
       return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
@@ -1579,7 +1544,7 @@ var require_state = __commonJS({
       }
       return state.objectMode ? 16 : 16 * 1024;
     }
-    module.exports = {
+    module2.exports = {
       getHighWaterMark
     };
   }
@@ -1587,19 +1552,17 @@ var require_state = __commonJS({
 
 // node_modules/util-deprecate/node.js
 var require_node = __commonJS({
-  "node_modules/util-deprecate/node.js"(exports, module) {
+  "node_modules/util-deprecate/node.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = __require("util").deprecate;
+    module2.exports = require("util").deprecate;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js
 var require_stream_writable = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = Writable;
+    module2.exports = Writable;
     function CorkedRequest(state) {
       var _this = this;
       this.next = null;
@@ -1614,7 +1577,7 @@ var require_stream_writable = __commonJS({
       deprecate: require_node()
     };
     var Stream = require_stream();
-    var Buffer3 = __require("buffer").Buffer;
+    var Buffer3 = require("buffer").Buffer;
     var OurUint8Array = global.Uint8Array || function() {
     };
     function _uint8ArrayToBuffer(chunk) {
@@ -2097,9 +2060,8 @@ var require_stream_writable = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js
 var require_stream_duplex = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var objectKeys = Object.keys || function(obj) {
       var keys2 = [];
       for (var key in obj) {
@@ -2107,7 +2069,7 @@ var require_stream_duplex = __commonJS({
       }
       return keys2;
     };
-    module.exports = Duplex;
+    module2.exports = Duplex;
     var Readable = require_stream_readable();
     var Writable = require_stream_writable();
     require_inherits()(Duplex, Readable);
@@ -2200,7 +2162,6 @@ var require_stream_duplex = __commonJS({
 var require_string_decoder = __commonJS({
   "node_modules/string_decoder/lib/string_decoder.js"(exports) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var isEncoding = Buffer3.isEncoding || function(encoding) {
       encoding = "" + encoding;
@@ -2459,9 +2420,8 @@ var require_string_decoder = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js
 var require_end_of_stream = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var ERR_STREAM_PREMATURE_CLOSE = require_errors().codes.ERR_STREAM_PREMATURE_CLOSE;
     function once(callback) {
       var called = false;
@@ -2555,15 +2515,14 @@ var require_end_of_stream = __commonJS({
         stream.removeListener("close", onclose);
       };
     }
-    module.exports = eos;
+    module2.exports = eos;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js
 var require_async_iterator = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var _Object$setPrototypeO;
     function _defineProperty(obj, key, value) {
       if (key in obj) {
@@ -2724,15 +2683,14 @@ var require_async_iterator = __commonJS({
       stream.on("readable", onReadable.bind(null, iterator));
       return iterator;
     };
-    module.exports = createReadableStreamAsyncIterator;
+    module2.exports = createReadableStreamAsyncIterator;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js
 var require_from = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
       try {
         var info = gen[key](arg);
@@ -2842,24 +2800,23 @@ var require_from = __commonJS({
       }
       return readable;
     }
-    module.exports = from;
+    module2.exports = from;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js
 var require_stream_readable = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = Readable;
+    module2.exports = Readable;
     var Duplex;
     Readable.ReadableState = ReadableState;
-    var EE = __require("events").EventEmitter;
+    var EE = require("events").EventEmitter;
     var EElistenerCount = function EElistenerCount2(emitter, type) {
       return emitter.listeners(type).length;
     };
     var Stream = require_stream();
-    var Buffer3 = __require("buffer").Buffer;
+    var Buffer3 = require("buffer").Buffer;
     var OurUint8Array = global.Uint8Array || function() {
     };
     function _uint8ArrayToBuffer(chunk) {
@@ -2868,7 +2825,7 @@ var require_stream_readable = __commonJS({
     function _isUint8Array(obj) {
       return Buffer3.isBuffer(obj) || obj instanceof OurUint8Array;
     }
-    var debugUtil = __require("util");
+    var debugUtil = require("util");
     var debug;
     if (debugUtil && debugUtil.debuglog) {
       debug = debugUtil.debuglog("stream");
@@ -3647,10 +3604,9 @@ var require_stream_readable = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js
 var require_stream_transform = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = Transform;
+    module2.exports = Transform;
     var _require$codes = require_errors().codes;
     var ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED;
     var ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK;
@@ -3756,10 +3712,9 @@ var require_stream_transform = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js
 var require_stream_passthrough = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    module.exports = PassThrough;
+    module2.exports = PassThrough;
     var Transform = require_stream_transform();
     require_inherits()(PassThrough, Transform);
     function PassThrough(options) {
@@ -3775,9 +3730,8 @@ var require_stream_passthrough = __commonJS({
 
 // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js
 var require_pipeline = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var eos;
     function once(callback) {
       var called = false;
@@ -3869,22 +3823,21 @@ var require_pipeline = __commonJS({
       });
       return streams.reduce(pipe);
     }
-    module.exports = pipeline;
+    module2.exports = pipeline;
   }
 });
 
 // node_modules/hash-base/node_modules/readable-stream/readable.js
 var require_readable = __commonJS({
-  "node_modules/hash-base/node_modules/readable-stream/readable.js"(exports, module) {
+  "node_modules/hash-base/node_modules/readable-stream/readable.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
-    var Stream = __require("stream");
+    var Stream = require("stream");
     if (process.env.READABLE_STREAM === "disable" && Stream) {
-      module.exports = Stream.Readable;
-      Object.assign(module.exports, Stream);
-      module.exports.Stream = Stream;
+      module2.exports = Stream.Readable;
+      Object.assign(module2.exports, Stream);
+      module2.exports.Stream = Stream;
     } else {
-      exports = module.exports = require_stream_readable();
+      exports = module2.exports = require_stream_readable();
       exports.Stream = Stream || exports;
       exports.Readable = exports;
       exports.Writable = require_stream_writable();
@@ -3899,9 +3852,8 @@ var require_readable = __commonJS({
 
 // node_modules/hash-base/index.js
 var require_hash_base = __commonJS({
-  "node_modules/hash-base/index.js"(exports, module) {
+  "node_modules/hash-base/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_readable().Transform;
     var inherits = require_inherits();
@@ -3980,15 +3932,14 @@ var require_hash_base = __commonJS({
     HashBase.prototype._digest = function() {
       throw new Error("_digest is not implemented");
     };
-    module.exports = HashBase;
+    module2.exports = HashBase;
   }
 });
 
 // node_modules/md5.js/index.js
 var require_md5 = __commonJS({
-  "node_modules/md5.js/index.js"(exports, module) {
+  "node_modules/md5.js/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var inherits = require_inherits();
     var HashBase = require_hash_base();
     var Buffer3 = require_safe_buffer().Buffer;
@@ -4111,15 +4062,14 @@ var require_md5 = __commonJS({
     function fnI(a, b, c, d, m, k, s) {
       return rotl(a + (c ^ (b | ~d)) + m + k | 0, s) + b | 0;
     }
-    module.exports = MD5;
+    module2.exports = MD5;
   }
 });
 
 // node_modules/evp_bytestokey/index.js
 var require_evp_bytestokey = __commonJS({
-  "node_modules/evp_bytestokey/index.js"(exports, module) {
+  "node_modules/evp_bytestokey/index.js"(exports, module2) {
     "use strict";
-    init_esm_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var MD5 = require_md5();
     function EVP_BytesToKey(password, salt, keyBits, ivLen) {
@@ -4159,7 +4109,7 @@ var require_evp_bytestokey = __commonJS({
       tmp.fill(0);
       return { key, iv };
     }
-    module.exports = EVP_BytesToKey;
+    module2.exports = EVP_BytesToKey;
   }
 });
 
@@ -4167,7 +4117,6 @@ var require_evp_bytestokey = __commonJS({
 var require_encrypter = __commonJS({
   "node_modules/browserify-aes/encrypter.js"(exports) {
     "use strict";
-    init_esm_shims();
     var MODES2 = require_modes();
     var AuthCipher = require_authCipher();
     var Buffer3 = require_safe_buffer().Buffer;
@@ -4271,7 +4220,6 @@ var require_encrypter = __commonJS({
 var require_decrypter = __commonJS({
   "node_modules/browserify-aes/decrypter.js"(exports) {
     "use strict";
-    init_esm_shims();
     var AuthCipher = require_authCipher();
     var Buffer3 = require_safe_buffer().Buffer;
     var MODES2 = require_modes();
@@ -4390,7 +4338,6 @@ var require_decrypter = __commonJS({
 var require_browser = __commonJS({
   "node_modules/browserify-aes/browser.js"(exports) {
     "use strict";
-    init_esm_shims();
     var ciphers = require_encrypter();
     var deciphers = require_decrypter();
     var modes = require_list();
@@ -4409,7 +4356,6 @@ var require_browser = __commonJS({
 var require_base64_js = __commonJS({
   "node_modules/base64-js/index.js"(exports) {
     "use strict";
-    init_esm_shims();
     exports.byteLength = byteLength;
     exports.toByteArray = toByteArray;
     exports.fromByteArray = fromByteArray;
@@ -4512,7 +4458,6 @@ var require_base64_js = __commonJS({
 var require_ieee754 = __commonJS({
   "node_modules/ieee754/index.js"(exports) {
     "use strict";
-    init_esm_shims();
     exports.read = function(buffer, offset, isLE, mLen, nBytes) {
       var e, m;
       var eLen = nBytes * 8 - mLen - 1;
@@ -4597,7 +4542,6 @@ var require_ieee754 = __commonJS({
 var require_buffer = __commonJS({
   "node_modules/buffer/index.js"(exports) {
     "use strict";
-    init_esm_shims();
     var base64 = require_base64_js();
     var ieee754 = require_ieee754();
     var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
@@ -6290,13 +6234,16 @@ var require_buffer = __commonJS({
 });
 
 // src/index.ts
-init_esm_shims();
-var import_browser = __toESM(require_browser(), 1);
-var import_buffer = __toESM(require_buffer(), 1);
-import { randomBytes } from "crypto";
+var src_exports = {};
+__export(src_exports, {
+  default: () => src_default
+});
+module.exports = __toCommonJS(src_exports);
+var import_crypto = require("crypto");
+var import_browser = __toESM(require_browser());
+var import_buffer = __toESM(require_buffer());
 
 // src/modes.ts
-init_esm_shims();
 var MODES = {
   "aes-128-ecb": {
     cipher: "AES",
@@ -6493,7 +6440,7 @@ var modes_default = MODES;
 // src/index.ts
 var Cipher = class {
   static generateRandomKey(bits = "256", encoding = "hex") {
-    const generatedBytes = randomBytes(Number(bits) / 16);
+    const generatedBytes = (0, import_crypto.randomBytes)(Number(bits) / 16);
     return generatedBytes.toString(encoding);
   }
   checkKeyLength(algorithm, encryption_key) {
@@ -6611,9 +6558,6 @@ Whereas, the initialization vector passed is ${initialization_vector.length} cha
   }
 };
 var src_default = Cipher;
-export {
-  src_default as default
-};
 /*! Bundled license information:
 
 safe-buffer/index.js:

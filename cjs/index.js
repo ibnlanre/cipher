@@ -1,4 +1,3 @@
-"use client";
 "use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -7,9 +6,6 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __pow = Math.pow;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -35,18 +31,10 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/tsup/assets/cjs_shims.js
-var init_cjs_shims = __esm({
-  "node_modules/tsup/assets/cjs_shims.js"() {
-    "use strict";
-  }
-});
-
 // node_modules/browserify-aes/modes/ecb.js
 var require_ecb = __commonJS({
   "node_modules/browserify-aes/modes/ecb.js"(exports) {
     "use strict";
-    init_cjs_shims();
     exports.encrypt = function(self, block) {
       return self._cipher.encryptBlock(block);
     };
@@ -60,7 +48,6 @@ var require_ecb = __commonJS({
 var require_buffer_xor = __commonJS({
   "node_modules/buffer-xor/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = function xor(a, b) {
       var length = Math.min(a.length, b.length);
       var buffer = new Buffer(length);
@@ -76,7 +63,6 @@ var require_buffer_xor = __commonJS({
 var require_cbc = __commonJS({
   "node_modules/browserify-aes/modes/cbc.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var xor = require_buffer_xor();
     exports.encrypt = function(self, block) {
       var data = xor(block, self._prev);
@@ -96,7 +82,6 @@ var require_cbc = __commonJS({
 var require_safe_buffer = __commonJS({
   "node_modules/safe-buffer/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var buffer = require("buffer");
     var Buffer3 = buffer.Buffer;
     function copyProps(src, dst) {
@@ -156,7 +141,6 @@ var require_safe_buffer = __commonJS({
 var require_cfb = __commonJS({
   "node_modules/browserify-aes/modes/cfb.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var xor = require_buffer_xor();
     function encryptStart(self, data, decrypt) {
@@ -192,7 +176,6 @@ var require_cfb = __commonJS({
 var require_cfb8 = __commonJS({
   "node_modules/browserify-aes/modes/cfb8.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function encryptByte(self, byteParam, decrypt) {
       var pad = self._cipher.encryptBlock(self._prev);
@@ -219,7 +202,6 @@ var require_cfb8 = __commonJS({
 var require_cfb1 = __commonJS({
   "node_modules/browserify-aes/modes/cfb1.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function encryptByte(self, byteParam, decrypt) {
       var pad;
@@ -262,7 +244,6 @@ var require_cfb1 = __commonJS({
 var require_ofb = __commonJS({
   "node_modules/browserify-aes/modes/ofb.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var xor = require_buffer_xor();
     function getBlock(self) {
       self._prev = self._cipher.encryptBlock(self._prev);
@@ -283,7 +264,6 @@ var require_ofb = __commonJS({
 var require_incr32 = __commonJS({
   "node_modules/browserify-aes/incr32.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     function incr32(iv) {
       var len = iv.length;
       var item;
@@ -306,7 +286,6 @@ var require_incr32 = __commonJS({
 var require_ctr = __commonJS({
   "node_modules/browserify-aes/modes/ctr.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var xor = require_buffer_xor();
     var Buffer3 = require_safe_buffer().Buffer;
     var incr32 = require_incr32();
@@ -539,7 +518,6 @@ var require_list = __commonJS({
 var require_modes = __commonJS({
   "node_modules/browserify-aes/modes/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var modeModules = {
       ECB: require_ecb(),
       CBC: require_cbc(),
@@ -563,7 +541,6 @@ var require_modes = __commonJS({
 var require_aes = __commonJS({
   "node_modules/browserify-aes/aes.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     function asUInt32Array(buf) {
       if (!Buffer3.isBuffer(buf))
@@ -740,7 +717,6 @@ var require_aes = __commonJS({
 var require_inherits_browser = __commonJS({
   "node_modules/inherits/inherits_browser.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     if (typeof Object.create === "function") {
       module2.exports = function inherits(ctor, superCtor) {
         if (superCtor) {
@@ -774,7 +750,6 @@ var require_inherits_browser = __commonJS({
 var require_inherits = __commonJS({
   "node_modules/inherits/inherits.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     try {
       util = require("util");
       if (typeof util.inherits !== "function")
@@ -791,7 +766,6 @@ var require_inherits = __commonJS({
 var require_cipher_base = __commonJS({
   "node_modules/cipher-base/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require("stream").Transform;
     var StringDecoder = require("string_decoder").StringDecoder;
@@ -886,7 +860,6 @@ var require_cipher_base = __commonJS({
 var require_ghash = __commonJS({
   "node_modules/browserify-aes/ghash.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var ZEROES = Buffer3.alloc(16, 0);
     function toArray(buf) {
@@ -965,7 +938,6 @@ var require_ghash = __commonJS({
 var require_authCipher = __commonJS({
   "node_modules/browserify-aes/authCipher.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var aes = require_aes();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_cipher_base();
@@ -1075,7 +1047,6 @@ var require_authCipher = __commonJS({
 var require_streamCipher = __commonJS({
   "node_modules/browserify-aes/streamCipher.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var aes = require_aes();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_cipher_base();
@@ -1104,7 +1075,6 @@ var require_streamCipher = __commonJS({
 var require_stream = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = require("stream");
   }
 });
@@ -1113,7 +1083,6 @@ var require_stream = __commonJS({
 var require_buffer_list = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     function ownKeys(object, enumerableOnly) {
       var keys = Object.keys(object);
       if (Object.getOwnPropertySymbols) {
@@ -1367,7 +1336,6 @@ var require_buffer_list = __commonJS({
 var require_destroy = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     function destroy(err, cb) {
       var _this = this;
       var readableDestroyed = this._readableState && this._readableState.destroyed;
@@ -1461,7 +1429,6 @@ var require_destroy = __commonJS({
 var require_errors = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/errors.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var codes = {};
     function createErrorType(code, message, Base) {
       if (!Base) {
@@ -1562,7 +1529,6 @@ var require_errors = __commonJS({
 var require_state = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var ERR_INVALID_OPT_VALUE = require_errors().codes.ERR_INVALID_OPT_VALUE;
     function highWaterMarkFrom(options, isDuplex, duplexKey) {
       return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
@@ -1588,7 +1554,6 @@ var require_state = __commonJS({
 var require_node = __commonJS({
   "node_modules/util-deprecate/node.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = require("util").deprecate;
   }
 });
@@ -1597,7 +1562,6 @@ var require_node = __commonJS({
 var require_stream_writable = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = Writable;
     function CorkedRequest(state) {
       var _this = this;
@@ -2098,7 +2062,6 @@ var require_stream_writable = __commonJS({
 var require_stream_duplex = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var objectKeys = Object.keys || function(obj) {
       var keys2 = [];
       for (var key in obj) {
@@ -2199,7 +2162,6 @@ var require_stream_duplex = __commonJS({
 var require_string_decoder = __commonJS({
   "node_modules/string_decoder/lib/string_decoder.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var isEncoding = Buffer3.isEncoding || function(encoding) {
       encoding = "" + encoding;
@@ -2460,7 +2422,6 @@ var require_string_decoder = __commonJS({
 var require_end_of_stream = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var ERR_STREAM_PREMATURE_CLOSE = require_errors().codes.ERR_STREAM_PREMATURE_CLOSE;
     function once(callback) {
       var called = false;
@@ -2562,7 +2523,6 @@ var require_end_of_stream = __commonJS({
 var require_async_iterator = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var _Object$setPrototypeO;
     function _defineProperty(obj, key, value) {
       if (key in obj) {
@@ -2731,7 +2691,6 @@ var require_async_iterator = __commonJS({
 var require_from = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
       try {
         var info = gen[key](arg);
@@ -2849,7 +2808,6 @@ var require_from = __commonJS({
 var require_stream_readable = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = Readable;
     var Duplex;
     Readable.ReadableState = ReadableState;
@@ -3648,7 +3606,6 @@ var require_stream_readable = __commonJS({
 var require_stream_transform = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = Transform;
     var _require$codes = require_errors().codes;
     var ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED;
@@ -3757,7 +3714,6 @@ var require_stream_transform = __commonJS({
 var require_stream_passthrough = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     module2.exports = PassThrough;
     var Transform = require_stream_transform();
     require_inherits()(PassThrough, Transform);
@@ -3776,7 +3732,6 @@ var require_stream_passthrough = __commonJS({
 var require_pipeline = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var eos;
     function once(callback) {
       var called = false;
@@ -3876,7 +3831,6 @@ var require_pipeline = __commonJS({
 var require_readable = __commonJS({
   "node_modules/hash-base/node_modules/readable-stream/readable.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Stream = require("stream");
     if (process.env.READABLE_STREAM === "disable" && Stream) {
       module2.exports = Stream.Readable;
@@ -3900,7 +3854,6 @@ var require_readable = __commonJS({
 var require_hash_base = __commonJS({
   "node_modules/hash-base/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var Transform = require_readable().Transform;
     var inherits = require_inherits();
@@ -3987,7 +3940,6 @@ var require_hash_base = __commonJS({
 var require_md5 = __commonJS({
   "node_modules/md5.js/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var inherits = require_inherits();
     var HashBase = require_hash_base();
     var Buffer3 = require_safe_buffer().Buffer;
@@ -4118,7 +4070,6 @@ var require_md5 = __commonJS({
 var require_evp_bytestokey = __commonJS({
   "node_modules/evp_bytestokey/index.js"(exports, module2) {
     "use strict";
-    init_cjs_shims();
     var Buffer3 = require_safe_buffer().Buffer;
     var MD5 = require_md5();
     function EVP_BytesToKey(password, salt, keyBits, ivLen) {
@@ -4166,7 +4117,6 @@ var require_evp_bytestokey = __commonJS({
 var require_encrypter = __commonJS({
   "node_modules/browserify-aes/encrypter.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var MODES2 = require_modes();
     var AuthCipher = require_authCipher();
     var Buffer3 = require_safe_buffer().Buffer;
@@ -4270,7 +4220,6 @@ var require_encrypter = __commonJS({
 var require_decrypter = __commonJS({
   "node_modules/browserify-aes/decrypter.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var AuthCipher = require_authCipher();
     var Buffer3 = require_safe_buffer().Buffer;
     var MODES2 = require_modes();
@@ -4389,7 +4338,6 @@ var require_decrypter = __commonJS({
 var require_browser = __commonJS({
   "node_modules/browserify-aes/browser.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var ciphers = require_encrypter();
     var deciphers = require_decrypter();
     var modes = require_list();
@@ -4408,7 +4356,6 @@ var require_browser = __commonJS({
 var require_base64_js = __commonJS({
   "node_modules/base64-js/index.js"(exports) {
     "use strict";
-    init_cjs_shims();
     exports.byteLength = byteLength;
     exports.toByteArray = toByteArray;
     exports.fromByteArray = fromByteArray;
@@ -4511,7 +4458,6 @@ var require_base64_js = __commonJS({
 var require_ieee754 = __commonJS({
   "node_modules/ieee754/index.js"(exports) {
     "use strict";
-    init_cjs_shims();
     exports.read = function(buffer, offset, isLE, mLen, nBytes) {
       var e, m;
       var eLen = nBytes * 8 - mLen - 1;
@@ -4596,7 +4542,6 @@ var require_ieee754 = __commonJS({
 var require_buffer = __commonJS({
   "node_modules/buffer/index.js"(exports) {
     "use strict";
-    init_cjs_shims();
     var base64 = require_base64_js();
     var ieee754 = require_ieee754();
     var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
@@ -6294,13 +6239,11 @@ __export(src_exports, {
   default: () => src_default
 });
 module.exports = __toCommonJS(src_exports);
-init_cjs_shims();
 var import_crypto = require("crypto");
-var import_browser = __toESM(require_browser(), 1);
-var import_buffer = __toESM(require_buffer(), 1);
+var import_browser = __toESM(require_browser());
+var import_buffer = __toESM(require_buffer());
 
 // src/modes.ts
-init_cjs_shims();
 var MODES = {
   "aes-128-ecb": {
     cipher: "AES",
@@ -6631,4 +6574,4 @@ buffer/index.js:
    * @license  MIT
    *)
 */
-//# sourceMappingURL=index.cjs.map
+//# sourceMappingURL=index.js.map
