@@ -1,7 +1,7 @@
 {
   "name": "@ibnlanre/cipher",
   "description": "Library for AES encryption or decryption",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "cjs/index.d.ts",
