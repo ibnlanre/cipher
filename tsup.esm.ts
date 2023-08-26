@@ -10,7 +10,15 @@ export default defineConfig({
   dts: true,
   esbuildPlugins: [
     polyfillNode({
-      globals: false,
+      globals: {
+        global: true,
+        buffer: true,
+        process: true,
+      },
+      polyfills: {
+        crypto: true,
+        buffer: true,
+      },
     }),
   ],
   treeshake: true,

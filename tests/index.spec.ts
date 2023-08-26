@@ -1,4 +1,4 @@
-import Cipher from "../dist/index.js";
+import Cipher from "../esm/index.js";
 import { it, expect, describe } from "vitest";
 
 const { encrypt, decrypt } = new Cipher({
