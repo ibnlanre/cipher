@@ -1,7 +1,7 @@
 {
   "name": "@ibnlanre/cipher",
   "description": "Library for AES encryption or decryption",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "cjs/index.d.ts",
@@ -26,13 +26,13 @@
   ],
   "license": "MIT",
   "scripts": {
-    "package": "yarn publish --access public",
     "typings": "tsc --project ./",
     "test": "vitest",
     "esm-bundle": "tsup --config tsup.esm.ts",
     "cjs-bundle": "tsup --config tsup.cjs.ts",
     "local-test": "node tests/index.js",
-    "build": "yarn esm-bundle && yarn cjs-bundle"
+    "build": "yarn esm-bundle && yarn cjs-bundle",
+    "package": "yarn publish --access public"
   },
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {
@@ -83,6 +83,7 @@
   },
   "dependencies": {
     "@types/node": "^18.14.6",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "vitest": "^0.34.1"
   },
   "browserify": {

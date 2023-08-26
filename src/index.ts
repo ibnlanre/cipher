@@ -1,5 +1,5 @@
 // @ts-ignore
-import { randomBytes } from "crypto";
+import randomBytes from "randombytes";
 import { createCipheriv, createDecipheriv } from "browserify-aes/browser.js";
 import { Buffer } from "buffer/";
 

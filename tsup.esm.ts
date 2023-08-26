@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup";
+import { polyfillNode } from "esbuild-plugin-polyfill-node";
 
 export default defineConfig({
   outDir: "esm",
@@ -7,4 +8,6 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   dts: true,
+  esbuildPlugins: [polyfillNode()],
+  treeshake: true
 });
