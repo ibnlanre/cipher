@@ -1,4 +1,4 @@
-const Cipher = require("../dist/index.cjs").default;
+const Cipher = require("../cjs/index.js").default;
 
 const { encrypt, decrypt } = new Cipher({
   encryption_key: "uEKBcN7kMKayW6SF8d0BtaJq60Musbp0",
