@@ -8,6 +8,10 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   dts: true,
-  esbuildPlugins: [polyfillNode()],
-  treeshake: true
+  esbuildPlugins: [
+    polyfillNode({
+      globals: false,
+    }),
+  ],
+  treeshake: true,
 });
