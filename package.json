@@ -7,13 +7,8 @@
   "types": "cjs/index.d.ts",
   "sideEffects": false,
   "files": [
-    "esm",
-    "cjs"
+    "dist/*"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ibnlanre/cipher.git"
-  },
   "keywords": [
     "encrypt",
     "decrypt",
@@ -28,10 +23,8 @@
   "scripts": {
     "test": "vitest",
     "typings": "tsc --project ./",
-    "esm-bundle": "tsup --config tsup.esm.ts",
-    "cjs-bundle": "tsup --config tsup.cjs.ts",
     "local-test": "node tests/index.js",
-    "build": "yarn esm-bundle && yarn cjs-bundle",
+    "bundle": "tsup",
     "package": "yarn publish --access public"
   },
   "browserslist": "> 0.25%, not dead",

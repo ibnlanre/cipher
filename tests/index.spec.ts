@@ -1,5 +1,5 @@
-import Cipher from "../esm/index.js";
-import { it, expect, describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import Cipher from "../src/index";
 
 const { encrypt, decrypt } = new Cipher({
   encryption_key: "uEKBcN7kMKayW6SF8d0BtaJq60Musbp0",

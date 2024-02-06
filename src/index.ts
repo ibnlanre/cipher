@@ -1,39 +1,13 @@
-// @ts-ignore
-import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
 import { Buffer } from "buffer";
+import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
+
+import type {
+  CipherAlgorithmTypes,
+  CipherBlockSize,
+  CipherConstructor,
+} from "@/types";
 
 import MODES from "./modes";
-
-type CipherMode =
-  | "cbc" // Cyber Block Chaining (CBC) Mode
-  | "cfb" // Cyber Feedback (CFB) Mode
-  | "ctr" // Counter (CTR) Mode
-  | "ecb" // Electronic Codebook (ECB) Mode
-  | "gcm" //  Galois/Counter (GCM) Mode
-  | "ofb"; // Output Feedback (OFB) Mode
-
-type CipherBlockSize = "128" | "192" | "256";
-type CipherTypes<B extends CipherBlockSize> = `aes-${B}`;
-
-type CipherAlgorithm<
-  T extends CipherTypes<CipherBlockSize>,
-  M extends CipherMode
-> = `${T}-${M}`;
-
-type CipherConstructor = {
-  encryption_key: string;
-  initialization_vector: string;
-  input_encoding?: BufferEncoding;
-  output_decoding?: BufferEncoding;
-  algorithm?: CipherAlgorithm<CipherTypes<CipherBlockSize>, CipherMode>;
-};
-
-type CipherText =
-  | string
-  | number
-  | boolean
-  | Array<CipherText>
-  | { [key: string]: CipherText };
 
 /**
  * @example
@@ -53,15 +27,11 @@ type CipherText =
  * const decryptedData = cipher.decrypt(encryptedData)
  */
 class Cipher {
-  public encrypt!: (
-    withPlainText: CipherText,
-    encoding?: BufferEncoding
-  ) => CipherText;
-
-  public decrypt!: (
-    withCipherText: CipherText,
-    decoding?: BufferEncoding
-  ) => CipherText;
+  algorithm: CipherAlgorithmTypes = "aes-256-cbc";
+  output_decoding: BufferEncoding = "base64";
+  input_encoding: BufferEncoding = "utf-8";
+  encryption_key: string = "";
+  initialization_vector: string = "";
 
   static generateRandomKey(
     bits: CipherBlockSize | number = "256",
@@ -72,23 +42,119 @@ class Cipher {
   }
 
   private checkKeyLength(
-    algorithm: CipherConstructor["algorithm"],
+    algorithm: CipherAlgorithmTypes = this.algorithm,
     encryption_key: string
   ) {
-    return (
-      Buffer.from(encryption_key).length ===
-      MODES[algorithm ?? "aes-256-cbc"].key / 8
-    );
+    return Buffer.from(encryption_key).length === MODES[algorithm].key / 8;
   }
 
   private checkInitializationVectorLength(
-    algorithm: CipherConstructor["algorithm"],
+    algorithm: CipherAlgorithmTypes = this.algorithm,
     initialization_vector: string
   ) {
-    return (
-      initialization_vector.length === MODES[algorithm ?? "aes-256-cbc"].iv
-    );
+    return initialization_vector.length === MODES[algorithm].iv;
   }
+
+  private traverse<T>(
+    data: T,
+    encoding: BufferEncoding,
+    actor: <T>(data: T, encoding: BufferEncoding) => T
+  ): T {
+    if (Array.isArray(data)) {
+      const result: T[] = [];
+      for (const value of data) {
+        result.push(this.traverse(value, encoding, actor));
+      }
+      return result as T;
+    } else if (typeof data === "object" && data) {
+      const result = {} as T;
+      for (const key in data as T) {
+        const value = data[key];
+        result[key] = this.traverse(value, encoding, actor);
+      }
+    }
+
+    return actor(data, encoding) as T;
+  }
+
+  private encryptData<T>(encryptedText: T, encoding: BufferEncoding): T {
+    const cipher = createCipheriv(
+      this.algorithm,
+      this.encryption_key,
+      this.initialization_vector
+    );
+
+    const throwable = ["object", "boolean", "symbol", "number", "function"];
+
+    const stringifiedText = throwable.includes(typeof encryptedText)
+      ? JSON.stringify(encryptedText)
+      : (encryptedText as unknown as string);
+
+    return Buffer.concat([
+      cipher.update(Buffer.from(stringifiedText, encoding)),
+      cipher.final(),
+    ]).toString(encoding) as T;
+  }
+
+  public encrypt<T>(
+    withPlainText: T,
+    encoding: BufferEncoding = this.input_encoding
+  ): T {
+    let encryptedText = "";
+
+    try {
+      encryptedText = JSON.parse(JSON.stringify(withPlainText));
+    } catch (e) {
+      throw new Error("passed data should be serializable");
+    }
+
+    return this.traverse(encryptedText, encoding, this.encryptData) as T;
+  }
+
+  private decryptData<T>(
+    withCipherText: T,
+    decoding: BufferEncoding = this.output_decoding
+  ): T {
+    if (typeof withCipherText === "string" && !withCipherText.trim().length) {
+      return withCipherText;
+    }
+
+    try {
+      const cipher = createDecipheriv(
+        this.algorithm,
+        this.encryption_key,
+        this.initialization_vector
+      );
+
+      const decryptedData = Buffer.concat([
+        cipher.update(Buffer.from(withCipherText as string, decoding)),
+        cipher.final(),
+      ]).toString();
+
+      try {
+        return JSON.parse(decryptedData) as T;
+      } catch {
+        return decryptedData as T;
+      }
+    } catch {
+      return withCipherText;
+    }
+  }
+
+  public decrypt = <T>(
+    withCipherText: T,
+    decoding: BufferEncoding = this.output_decoding
+  ) => {
+    let decryptedText = "";
+
+    try {
+      decryptedText = JSON.parse(JSON.stringify(withCipherText));
+    } catch (e) {
+      throw new Error("cipher data should be serializable");
+    }
+
+    return this.traverse(decryptedText, decoding, this.decryptData) as T;
+  };
 
   constructor({
     encryption_key,
@@ -118,117 +184,11 @@ class Cipher {
         );
       }
 
-      this.encrypt = function (
-        withPlainText: CipherText,
-        encoding: BufferEncoding = input_encoding
-      ): CipherText {
-        let _withPlainText = "";
-
-        try {
-          _withPlainText = JSON.parse(JSON.stringify(withPlainText));
-        } catch (e) {
-          throw new Error("passed data should be serializable");
-        }
-
-        function do_encrypt(_withPlainText) {
-          const cipher = createCipheriv(
-            algorithm,
-            encryption_key,
-            initialization_vector
-          );
-
-          const throwable = [
-            "object",
-            "boolean",
-            "symbol",
-            "number",
-            "function",
-          ];
-
-          const _withStringifiedText = throwable.includes(typeof _withPlainText)
-            ? JSON.stringify(_withPlainText)
-            : _withPlainText;
-
-          return Buffer.concat([
-            cipher.update(Buffer.from(_withStringifiedText, encoding)),
-            cipher.final(),
-          ]).toString(output_decoding);
-        }
-
-        function do_encrypt_data(_withPlainText: CipherText): CipherText {
-          if (Array.isArray(_withPlainText))
-            return _withPlainText.map((value) => do_encrypt_data(value));
-          else if (typeof _withPlainText === "object" && _withPlainText) {
-            const reducer = (acc, [key, value]) => {
-              acc[key] = do_encrypt_data(value);
-              return acc;
-            };
-            return Object.entries(_withPlainText).reduce(reducer, {});
-          }
-          return do_encrypt(_withPlainText);
-        }
-
-        // ENCRYPTION
-        return do_encrypt_data(_withPlainText);
-      };
-
-      this.decrypt = function (
-        withCipherText: CipherText,
-        decoding: BufferEncoding = output_decoding
-      ) {
-        let _withCipherText = "";
-
-        try {
-          _withCipherText = JSON.parse(JSON.stringify(withCipherText));
-        } catch (e) {
-          throw new Error("cipher data should be serializable");
-        }
-
-        function do_decrypt(_withCipherText: any) {
-          if (
-            typeof _withCipherText === "string" &&
-            !_withCipherText.trim().length
-          )
-            return _withCipherText;
-
-          try {
-            const cipher = createDecipheriv(
-              algorithm,
-              encryption_key,
-              initialization_vector
-            );
-
-            const _withDecryptedText = Buffer.concat([
-              cipher.update(Buffer.from(_withCipherText, decoding)),
-              cipher.final(),
-            ]).toString();
-
-            try {
-              return JSON.parse(_withDecryptedText);
-            } catch {
-              return _withDecryptedText;
-            }
-          } catch {
-            return _withCipherText;
-          }
-        }
-
-        function do_decrypt_data(_withCipherText: CipherText): CipherText {
-          if (Array.isArray(_withCipherText))
-            return _withCipherText.map((value) => do_decrypt_data(value));
-          else if (typeof _withCipherText === "object" && _withCipherText) {
-            const reducer = (acc, [key, value]) => {
-              acc[key] = do_decrypt_data(value);
-              return acc;
-            };
-            return Object.entries(_withCipherText).reduce(reducer, {});
-          }
-          return do_decrypt(_withCipherText);
-        }
-
-        // DECRYPTION
-        return do_decrypt_data(_withCipherText);
-      };
+      this.encryption_key = encryption_key;
+      this.initialization_vector = initialization_vector;
+      this.algorithm = algorithm;
+      this.input_encoding = input_encoding;
+      this.output_decoding = output_decoding;
     } catch (error: any) {
       console.log(error.message);
     }

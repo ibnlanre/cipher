@@ -1,8 +1,9 @@
-import { defineConfig } from "tsup";
 import { polyfillNode } from "esbuild-plugin-polyfill-node";
+import { defineConfig, Options } from "tsup";
 
-export default defineConfig({
-  outDir: "esm",
+const esm: Options = {
+  format: ["esm"],
+  outDir: "dist/esm",
   entry: ["src/index.ts"],
   splitting: false,
   sourcemap: true,
@@ -22,4 +23,18 @@ export default defineConfig({
     }),
   ],
   treeshake: true,
-});
+};
+
+const cjs: Options = {
+  format: ["cjs"],
+  entry: ["src/index.ts"],
+  outDir: "dist/cjs",
+  splitting: false,
+  sourcemap: true,
+  clean: true,
+  dts: true,
+  legacyOutput: true,
+  treeshake: true,
+};
+
+export default defineConfig([esm, cjs]);
