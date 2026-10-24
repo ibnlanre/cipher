@@ -71,3 +71,14 @@ describe("constructor", () => {
     expect(Cipher.generateRandomKey("256")).toMatch(/^[0-9a-f]{32}$/);
   });
 });
+
+describe("tampered ciphertext", () => {
+  const { decrypt, encrypt } = cipherFor("aes-256-cbc", "base64");
+
+  it("is returned unchanged when its padding is wrong", () => {
+    const bytes = Buffer.from(encrypt("password") as string, "base64");
+    bytes[bytes.length - 1] ^= 0xff;
+    const tampered = bytes.toString("base64");
+    expect(decrypt(tampered)).toBe(tampered);
+  });
+});

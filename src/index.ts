@@ -18,6 +18,12 @@ export type CipherBlockSize = "128" | "192" | "256";
 
 const SERIALISED = new Set(["bigint", "boolean", "function", "number", "object", "symbol"]);
 
+/**
+ * Whether `JSON.parse` could accept `text`: JSON starts, after whitespace, with
+ * one of these. Checking first skips a thrown parse for every plain string.
+ */
+const JSON_START = /^[\s]*[[{"\-0-9tfn]/;
+
 /** Walk arrays and plain objects, applying `leaf` to every value inside. */
 function walk(value: unknown, leaf: (value: unknown) => unknown): unknown {
   if (Array.isArray(value)) return value.map((item) => walk(item, leaf));
@@ -129,6 +135,7 @@ class Cipher {
         if (typeof leaf !== "string" || !leaf.trim().length) return leaf;
         try {
           const text = fromBytes(cipher.decrypt(toBytes(leaf, decoding)), "utf-8");
+          if (!JSON_START.test(text)) return text;
           try {
             return JSON.parse(text);
           } catch {

@@ -9,7 +9,7 @@ arrays and objects of them. Each value is encrypted on its own, so an object
 stays an object whose values are ciphertext.
 
 Runs in browsers, Web Workers, Node 20+, Deno and Bun with no Node polyfills:
-the whole package is about 19 KB (7 KB gzipped), built on
+the whole package is about 17 KB (7 KB gzipped), built on
 [@noble/ciphers](https://github.com/paulmillr/noble-ciphers).
 
 ---
@@ -47,7 +47,8 @@ To use, you'll need to install Node and Yarn or npm
 - NodeJS Require
 
   ```javascript
-  const Cipher = require("@ibnlanre/cipher").default;
+  const Cipher = require("@ibnlanre/cipher");
+  // `.default` and `.Cipher` are the same class
   ```
 
 ## Usage
@@ -103,6 +104,16 @@ checks 528 vectors recorded from 2.3.0 across every algorithm.
 - **Encodings** are `utf-8`/`utf8`, `base64`, `base64url`, `hex`, `latin1`/
   `binary`, `ascii` and `ucs2`/`utf16le`.
 - A named `Cipher` export sits beside the default one.
+- **About 3× faster** than 2.3.0 at decrypting messages of many small values:
+  the key is expanded once per cipher, and values that cannot be JSON skip
+  `JSON.parse`.
+
+## Changelog
+
+- **3.0.1:** `require("@ibnlanre/cipher")` is the class again, as in 2.x
+  (3.0.0 returned `{ Cipher, default }`). ECB and CBC reuse the expanded key,
+  and plain strings skip `JSON.parse`: about 3× faster decryption.
+- **3.0.0:** Node polyfills replaced by @noble/ciphers; see above.
 
 ## Maintainers
 
@@ -115,4 +126,4 @@ checks 528 vectors recorded from 2.3.0 across every algorithm.
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-f8bc45.svg
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
-[version-badge]: https://img.shields.io/badge/version-3.0.0-orange
+[version-badge]: https://img.shields.io/badge/version-3.0.1-orange

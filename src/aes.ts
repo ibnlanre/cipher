@@ -1,4 +1,4 @@
-import { cbc, cfb, ctr, ecb, unsafe } from "@noble/ciphers/aes.js";
+import { cfb, ctr, unsafe } from "@noble/ciphers/aes.js";
 
 import type { ModeName } from "./modes";
 
@@ -12,6 +12,62 @@ type Transform = (data: Uint8Array) => Uint8Array;
 function blockEncrypter(key: Uint8Array): Transform {
   const expanded = unsafe.expandKeyLE(key);
   return (block) => unsafe.encryptBlock(expanded, Uint8Array.from(block));
+}
+
+/** PKCS#7: always pad, a whole extra block when the input is aligned. */
+function pad(data: Uint8Array): Uint8Array {
+  const fill = 16 - (data.length % 16);
+  const out = new Uint8Array(data.length + fill);
+  out.set(data);
+  out.fill(fill, data.length);
+  return out;
+}
+
+/** Strip PKCS#7 padding, throwing where Node would ("bad decrypt"). */
+function unpad(data: Uint8Array): Uint8Array {
+  const fill = data[data.length - 1];
+  if (!data.length || fill < 1 || fill > 16) throw new Error("bad decrypt");
+  for (let i = data.length - fill; i < data.length; i++) if (data[i] !== fill) throw new Error("bad decrypt");
+  return data.subarray(0, data.length - fill);
+}
+
+function wholeBlocks(data: Uint8Array): void {
+  if (!data.length || data.length % 16) throw new Error("wrong final block length");
+}
+
+/**
+ * ECB and CBC over noble's block primitive, with the key expanded once per
+ * cipher. noble's own `ecb`/`cbc` expand it on every call, which dominated the
+ * cost of decrypting a message of thousands of small values.
+ */
+function blockModes(key: Uint8Array, iv: Uint8Array | null): { decrypt: Transform; encrypt: Transform } {
+  const encKey = unsafe.expandKeyLE(key);
+  const decKey = unsafe.expandKeyDecLE(key);
+  return {
+    decrypt: (data) => {
+      wholeBlocks(data);
+      const out = Uint8Array.from(data);
+      for (let offset = out.length - 16; offset >= 0; offset -= 16) {
+        const block = out.subarray(offset, offset + 16);
+        unsafe.decryptBlock(decKey, block);
+        if (!iv) continue;
+        const previous = offset ? data.subarray(offset - 16, offset) : iv;
+        for (let i = 0; i < 16; i++) block[i] ^= previous[i];
+      }
+      return unpad(out);
+    },
+    encrypt: (data) => {
+      const out = pad(data);
+      let previous = iv;
+      for (let offset = 0; offset < out.length; offset += 16) {
+        const block = out.subarray(offset, offset + 16);
+        if (previous) for (let i = 0; i < 16; i++) block[i] ^= previous[i];
+        unsafe.encryptBlock(encKey, block);
+        if (iv) previous = block;
+      }
+      return out;
+    },
+  };
 }
 
 /** OFB: keystream is the IV, encrypted again and again. Same both ways. */
@@ -76,9 +132,9 @@ function cfb1(key: Uint8Array, iv: Uint8Array, decrypting: boolean): Transform {
 export function aes(mode: ModeName, key: Uint8Array, iv: Uint8Array): { decrypt: Transform; encrypt: Transform } {
   switch (mode) {
     case "ecb":
-      return { decrypt: (d) => ecb(key).decrypt(d), encrypt: (d) => ecb(key).encrypt(d) };
+      return blockModes(key, null);
     case "cbc":
-      return { decrypt: (d) => cbc(key, iv).decrypt(d), encrypt: (d) => cbc(key, iv).encrypt(d) };
+      return blockModes(key, iv);
     case "cfb":
       return { decrypt: (d) => cfb(key, iv).decrypt(d), encrypt: (d) => cfb(key, iv).encrypt(d) };
     case "ctr":
